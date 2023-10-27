@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CSS滤镜</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@6.0.4/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="./style.min.css" />
+    </head>
+    <body>
+        <div id="app">
+            <swiper class="swiper" ref="mySwiper" :options="swiperOptions">
+                <!-- 滤镜 -->
+                <swiper-slide class="d-flex">
+                    <div class="filter">
+                        <img src="./img/deer.jpg" alt="deer" class="deer" :style="{filter: filterStyle}" />
+                        <div class="input-group">
+                            <div class="body swiper-no-swiping">
+                                <div v-for="(item, index) in filterRange" class="input-item blur">
+                                    <div class="label" v-text="item.label"></div>
+                                    <input
+                                        type="range"
+                                        v-model.number="item.value"
+                                        :min="item.min"
+                                        :max="item.max"
+                                        :step="item.step"
+                                    />
+                                    <div class="code" v-text="filterCode[index]"></div>
+                                </div>
+                                <div class="input-item drop-shadow">
+                                    <div class="label">投影</div>
+                                    <div class="params">
+                                        <label class="drop-shadow-x">
+                                            <span class="param">x</span>
+                                            <input type="number" v-model.number="dropShadow.x" />
+                                        </label>
+                                        <label class="drop-shadow-y">
+                                            <span class="param">y</span>
+                                            <input type="number" v-model.number="dropShadow.y" />
+                                        </label>
+                                        <label class="drop-shadow-blur">
+                                            <span class="param">blur</span>
+                                            <input type="number" v-model.number="dropShadow.blur" min="0" />
+                                        </label>
+                                        <label class="drop-shadow-color">
+                                            <span class="param">color</span>
+                                            <input type="color" v-model="dropShadow.color" />
+                                        </label>
+                                    </div>
+                                    <div
+                                        class="code"
+                                        v-text="`drop-shadow(${dropShadow.x}px ${dropShadow.y}px ${dropShadow.blur}px ${dropShadow.color})`"
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+
+                <!-- 混合模式 -->
+                <swiper-slide class="d-flex">
+                    <div class="blend-mode">
+                        <div class="img-group">
+                            <div class="mix-blend-mode">
+                                <div class="img">
+                                    <img src="./img//bg.png" alt="color" />
+                                    <img
+                                        src="./img/deer.jpg"
+                                        alt="deer"
+                                        class="deer"
+                                        :style="{mixBlendMode: blendMode}"
+                                    />
+                                </div>
+                                <div class="code" v-text="`mix-blend-mode: ${blendMode}`"></div>
+                            </div>
+                            <div class="background-blend-mode">
+                                <div class="img" :style="{backgroundBlendMode: blendMode}"></div>
+                                <div class="code" v-text="`background-blend-mode: ${blendMode}`"></div>
+                            </div>
+                        </div>
+                        <div class="input-group swiper-no-swiping">
+                            <label v-for="item in blendModeRadio" :key="item.value" class="input-item">
+                                <input type="radio" name="blendMode" :value="item.value" v-model="blendMode" />
+                                <div class="label" :data-label="item.label + ' ' + item.value"></div>
+                            </label>
+                        </div>
+                    </div>
+                </swiper-slide>
+
+                <!-- 艺术效果 -->
+                <swiper-slide class="art">
+                    <div class="deer normal"></div>
+                    <div class="deer pencil"></div>
+                    <div class="deer color-pencil"></div>
+                    <div class="deer chalk"></div>
+                    <div class="deer color-chalk"></div>
+                    <div class="deer relief"></div>
+                </swiper-slide>
+
+                <!-- 水墨画 -->
+                <swiper-slide class="d-flex shuimo">
+                    <div class="img">
+                        <div class="layer layer-1"></div>
+                        <div class="layer layer-2"></div>
+                        <div class="layer layer-3"></div>
+                        <div class="layer layer-4"></div>
+                        <div class="layer layer-5"></div>
+                    </div>
+                </swiper-slide>
+                <div class="swiper-pagination" slot="pagination"></div>
+            </swiper>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@6.0.4/swiper-bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue-awesome-swiper@4.1.1/dist/vue-awesome-swiper.min.js"></script>
+        <script src="./script.babel.js"></script>
+    </body>
+</html>

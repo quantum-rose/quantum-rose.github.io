@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SVG蒙版和图案</title>
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+    <body>
+        <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 1920 400"
+            preserveAspectRatio="xMidYMid meet"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            style="background-image: linear-gradient(150deg, rgba(255, 255, 255, 1) 45%, rgb(200, 200, 200))"
+        >
+            <defs>
+                <mask id="text" x="0%" y="0%" width="100%" height="100%">
+                    <text
+                        x="50%"
+                        y="50%"
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                        font-weight="700"
+                        font-size="400"
+                        fill="#fff"
+                    >
+                        MASK
+                    </text>
+                </mask>
+                <mask id="textShadow" x="0%" y="0%" width="100%" height="100%">
+                    <text
+                        x="50%"
+                        y="50%"
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                        font-weight="700"
+                        font-size="400"
+                        fill="#fff"
+                    >
+                        MASK
+                    </text>
+                    <text
+                        x="50.8%"
+                        y="55.2%"
+                        text-anchor="middle"
+                        dominant-baseline="central"
+                        font-weight="700"
+                        font-size="400"
+                        fill="#000"
+                    >
+                        MASK
+                    </text>
+                </mask>
+                <pattern id="wave" x="0" y="0" width="20%" height="100%">
+                    <path d="" fill="rgba(0,198,255, 0.5)">
+                        <animate
+                            id="ani-2"
+                            attributeType="XML"
+                            attributeName="d"
+                            values=""
+                            keytimes="0;0.25;0.5;0.75;1"
+                            dur="10s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                    <path d="" fill="rgba(0,63,255, 0.7)">
+                        <animate
+                            id="ani-1"
+                            attributeType="XML"
+                            attributeName="d"
+                            values=""
+                            keytimes="0;0.25;0.5;0.75;1"
+                            dur="10s"
+                            repeatCount="indefinite"
+                        />
+                    </path>
+                </pattern>
+            </defs>
+
+            <rect x="0" y="0" width="100%" height="100%" fill="hsla(30, 75%, 80%, 1)" mask="url(#text)" />
+            <rect x="0" y="0" width="100%" height="100%" fill="hsla(30, 75%, 40%, 1)" mask="url(#textShadow)" />
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#wave)" mask="url(#text)" />
+        </svg>
+
+        <script src="./script.babel.js"></script>
+    </body>
+</html>

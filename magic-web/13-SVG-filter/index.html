@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SVG滤镜</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@6.0.4/swiper-bundle.min.css" />
+        <link rel="stylesheet" href="./style.css" />
+    </head>
+
+    <body>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- feGaussianBlur -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter id="GaussianBlur">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="6">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="stdDeviation"
+                                        dur="2.5s"
+                                        repeatCount="indefinite"
+                                        calcMode="spline"
+                                        keySplines="0.11 0 0.5 0"
+                                        keyTimes="0;1"
+                                        values="0;6"
+                                    />
+                                </feGaussianBlur>
+                            </filter>
+                            <filter id="dropShadow">
+                                <feGaussianBlur in="SourceGraphic" stdDeviation="4" reslult="blur" />
+                                <feOffset in="blur" dx="4" dy="4" result="shadow" />
+                                <feMerge>
+                                    <feMergeNode in="shadow" />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                            <text
+                                id="textGaussianBlur"
+                                x="30"
+                                y="100"
+                                dominant-baseline="middle"
+                                style="fill: #fff; font-size: 50px"
+                            >
+                                feGaussianBlur
+                            </text>
+                            <image
+                                id="imageGaussianBlur"
+                                xlink:href="./img/unlucky.jpg"
+                                x="810"
+                                y="455"
+                                width="300"
+                                height="170"
+                            />
+                        </defs>
+                        <use xlink:href="#textGaussianBlur" x="0" y="0" filter="url(#dropShadow)" />
+                        <use xlink:href="#imageGaussianBlur" x="0" y="0" filter="url(#GaussianBlur)" />
+                    </svg>
+                </div>
+
+                <!-- feImage feFlood feTile -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter id="feImage" x="0" y="0" width="100%" height="100%">
+                                <feImage
+                                    xlink:href="./img/chrome.png"
+                                    x="155"
+                                    y="240"
+                                    width="350"
+                                    heigth="350"
+                                    preserveAspectRatio="xMidYMid meet"
+                                />
+                            </filter>
+                            <filter
+                                id="feFlood"
+                                x="-.2"
+                                y="-.2"
+                                width="1.4"
+                                height="1.4"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feFlood flood-color="red" flood-opacity="0.5" x=".2" y=".2" width="1" height="1" />
+                            </filter>
+                            <filter id="feTile" primitiveUnits="objectBoundingBox">
+                                <feImage
+                                    xlink:href="./img/chrome.png"
+                                    x="0"
+                                    y=".1"
+                                    width=".2"
+                                    height=".2"
+                                    result="image"
+                                    preserveAspectRatio="xMidYMid meet"
+                                />
+                                <feTile in="image" x=".2" y=".1" width=".6" height=".8" />
+                            </filter>
+                            <rect id="backgroundSkyblue" x="0" y="240" width="600" height="600" fill="skyblue" />
+                        </defs>
+
+                        <use xlink:href="#backgroundSkyblue" x="30" />
+                        <rect x="30" y="240" width="600" height="600" filter="url(#feImage)" />
+
+                        <use xlink:href="#backgroundSkyblue" x="660" />
+                        <rect x="660" y="240" width="600" height="600" filter="url(#feFlood)" />
+
+                        <use xlink:href="#backgroundSkyblue" x="1290" />
+                        <rect x="1290" y="240" width="600" height="600" filter="url(#feTile)" />
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feImage feFlood feTile
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feBlend -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter id="blend-normal" x="0" y="0" width="100%" height="100%">
+                                <feFlood flood-color="green" flood-opacity="1" result="bg" />
+                                <feBlend in="SourceGraphic" in2="bg" mode="normal" />
+                            </filter>
+                            <filter id="blend-multiply" x="0" y="0" width="100%" height="100%">
+                                <feFlood flood-color="green" flood-opacity="1" result="bg" />
+                                <feBlend in="SourceGraphic" in2="bg" mode="multiply" />
+                            </filter>
+                            <filter id="blend-screen" x="0" y="0" width="100%" height="100%">
+                                <feFlood flood-color="green" flood-opacity="1" result="bg" />
+                                <feBlend in="SourceGraphic" in2="bg" mode="screen" />
+                            </filter>
+                            <filter id="blend-darken" x="0" y="0" width="100%" height="100%">
+                                <feFlood flood-color="green" flood-opacity="1" result="bg" />
+                                <feBlend in="SourceGraphic" in2="bg" mode="darken" />
+                            </filter>
+                            <filter id="blend-lighten" x="0" y="0" width="100%" height="100%">
+                                <feFlood flood-color="green" flood-opacity="1" result="bg" />
+                                <feBlend in="SourceGraphic" in2="bg" mode="lighten" />
+                            </filter>
+                            <image id="chrome" xlink:href="./img/chrome.png" x="0" y="300" height="350" width="350" />
+                        </defs>
+
+                        <use xlink:href="#chrome" x="30" filter="url(#blend-normal)" />
+                        <use xlink:href="#chrome" x="407.5" filter="url(#blend-multiply)" />
+                        <use xlink:href="#chrome" x="785" filter="url(#blend-screen)" />
+                        <use xlink:href="#chrome" x="1162.5" filter="url(#blend-darken)" />
+                        <use xlink:href="#chrome" x="1540" filter="url(#blend-lighten)" />
+
+                        <g transform="translate(0, 720)" fill="#fff" font-size="30px" text-anchor="middle">
+                            <text x="205">normal</text>
+                            <text x="582.5">multiply</text>
+                            <text x="960">screen</text>
+                            <text x="1337.5">darken</text>
+                            <text x="1715">lighten</text>
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feBlend
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feComposite -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #fff"
+                    >
+                        <defs>
+                            <path id="skyblue" d="M 0 0 L 200 200 L 200 0 Z" fill="#0ff" />
+                            <path id="pink" d="M 0 0 L 0 200 L 200 0 Z" fill="#f0f" />
+                            <path id="skyblueAlpha" d="M 0 0 L 200 200 L 200 0 Z" fill="#0ff" fill-opacity=".5" />
+                            <path id="pinkAlpha" d="M 0 0 L 0 200 L 200 0 Z" fill="#f0f" fill-opacity=".5" />
+                            <filter id="over" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite in="SourceGraphic" in2="BackgroundImage" operator="over" />
+                            </filter>
+                            <filter id="in" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite in="SourceGraphic" in2="BackgroundImage" operator="in" />
+                            </filter>
+                            <filter id="out" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite in="SourceGraphic" in2="BackgroundImage" operator="out" />
+                            </filter>
+                            <filter id="atop" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite in="SourceGraphic" in2="BackgroundImage" operator="atop" />
+                            </filter>
+                            <filter id="xor" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite in="SourceGraphic" in2="BackgroundImage" operator="xor" />
+                            </filter>
+                            <filter id="arithmetic" filterUnits="objectBoundingBox" x="0" y="0" width="1" height="1">
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="BackgroundImage"
+                                    operator="arithmetic"
+                                    k1=".5"
+                                    k2=".5"
+                                    k3=".5"
+                                    k4=".5"
+                                />
+                            </filter>
+                        </defs>
+
+                        <g transform="translate(0, 240)">
+                            <g transform="translate(30, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#over)" />
+                            </g>
+
+                            <g transform="translate(362, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#in)" />
+                            </g>
+
+                            <g transform="translate(694, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#out)" />
+                            </g>
+
+                            <g transform="translate(1026, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#atop)" />
+                            </g>
+
+                            <g transform="translate(1358, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#xor)" />
+                            </g>
+
+                            <g transform="translate(1690, 0)">
+                                <use xlink:href="#skyblue" />
+                                <use xlink:href="#pink" filter="url(#arithmetic)" />
+                            </g>
+                        </g>
+
+                        <g transform="translate(0, 540)">
+                            <g transform="translate(30, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#over)" />
+                            </g>
+
+                            <g transform="translate(362, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#in)" />
+                            </g>
+
+                            <g transform="translate(694, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#out)" />
+                            </g>
+
+                            <g transform="translate(1026, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#atop)" />
+                            </g>
+
+                            <g transform="translate(1358, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#xor)" />
+                            </g>
+
+                            <g transform="translate(1690, 0)">
+                                <use xlink:href="#skyblueAlpha" />
+                                <use xlink:href="#pinkAlpha" filter="url(#arithmetic)" />
+                            </g>
+                        </g>
+
+                        <g transform="translate(0, 840)" fill="#000" font-size="30px" text-anchor="middle">
+                            <text x="130">over</text>
+                            <text x="462">in</text>
+                            <text x="794">out</text>
+                            <text x="1126">atop</text>
+                            <text x="1458">xor</text>
+                            <text x="1790">arithmetic</text>
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #000; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feComposite
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feColorMatrix -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                    >
+                        <defs>
+                            <g id="colorCircle">
+                                <circle cx="0" cy="0" r="100" fill="#00f" fill-opacity=".5" />
+                                <circle cx="100" cy="0" r="100" fill="#0f0" fill-opacity=".5" />
+                                <circle cx="50" cy="-86.6" r="100" fill="#f00" fill-opacity=".5" />
+                            </g>
+                            <filter id="offsetRed">
+                                <feColorMatrix
+                                    in="SourceGraphic"
+                                    type="matrix"
+                                    values="
+                                    1 1 1 1 0
+                                    0 0 0 0 0
+                                    0 0 0 0 0
+                                    0 0 0 1 0"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        values="
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0;
+                                        1 1 1 1 0
+                                        0 0 0 0 0
+                                        0 0 0 0 0
+                                        0 0 0 1 0;
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="lighten">
+                                <feColorMatrix
+                                    in="SourceGraphic"
+                                    type="matrix"
+                                    values="
+                                    40 0 0 0 0
+                                    0 40 0 0 0
+                                    0 0 40 0 0
+                                    0 0 0 1 0"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        values="
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0;
+                                        40 0 0 0 0
+                                        0 40 0 0 0
+                                        0 0 40 0 0
+                                        0 0 0 1 0;
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="darken">
+                                <feColorMatrix
+                                    in="SourceGraphic"
+                                    type="matrix"
+                                    values="
+                                    .2  0  0 0 0
+                                     0 .2  0 0 0
+                                     0  0 .2 0 0
+                                     0  0  0 1 0"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        values="
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0;
+                                        .2  0  0 0 0
+                                         0 .2  0 0 0
+                                         0  0 .2 0 0
+                                        0 0 0 1 0;
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="gray">
+                                <feColorMatrix
+                                    in="SourceGraphic"
+                                    type="matrix"
+                                    values="
+                                    .5 .5 .5 0 0
+                                    .5 .5 .5 0 0
+                                    .5 .5 .5 0 0
+                                     0  0  0 1 0"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        values="
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0;
+                                        .5 .5 .5 0 0
+                                        .5 .5 .5 0 0
+                                        .5 .5 .5 0 0
+                                         0  0  0 1 0;
+                                        1 0 0 0 0
+                                        0 1 0 0 0
+                                        0 0 1 0 0
+                                        0 0 0 1 0"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="saturate">
+                                <feColorMatrix in="SourceGraphic" type="saturate" values=".3">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        values="0;1;0"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="hueRotate">
+                                <feColorMatrix in="SourceGraphic" type="hueRotate" values="180">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="values"
+                                        from="0"
+                                        to="360"
+                                        dur="3s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feColorMatrix>
+                            </filter>
+                            <filter id="luminanceToAlpha">
+                                <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" />
+                            </filter>
+                        </defs>
+
+                        <g transform="translate(0, 440)">
+                            <use xlink:href="#colorCircle" x="130" />
+                            <use xlink:href="#colorCircle" x="520" filter="url(#offsetRed)" />
+                            <use xlink:href="#colorCircle" x="910" filter="url(#lighten)" />
+                            <use xlink:href="#colorCircle" x="1300" filter="url(#darken)" />
+                            <use xlink:href="#colorCircle" x="1690" filter="url(#gray)" />
+                        </g>
+                        <g transform="translate(0, 840)">
+                            <use xlink:href="#colorCircle" x="520" filter="url(#saturate)" />
+                            <use xlink:href="#colorCircle" x="910" filter="url(#hueRotate)" />
+                            <use xlink:href="#colorCircle" x="1300" filter="url(#luminanceToAlpha)" />
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #000; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feColorMatrix
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feComponentTransfer -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <linearGradient id="black2golden" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0" stop-color="#000" stop-opacity="1" />
+                                <stop offset="1" stop-color="#f7971d" stop-opacity="1" />
+                            </linearGradient>
+                            <filter id="identity">
+                                <feComponentTransfer in="SourceGraphic">
+                                    <feFuncR type="identity"></feFuncR>
+                                    <feFuncG type="identity"></feFuncG>
+                                    <feFuncB type="identity"></feFuncB>
+                                    <feFuncA type="identity"></feFuncA>
+                                </feComponentTransfer>
+                            </filter>
+                            <filter id="linear">
+                                <feComponentTransfer in="SourceGraphic">
+                                    <feFuncR type="linear" slope="1" intercept="0"></feFuncR>
+                                    <feFuncG type="linear" slope="0.2" intercept="0"></feFuncG>
+                                    <feFuncB type="linear" slope="1" intercept="0"></feFuncB>
+                                </feComponentTransfer>
+                            </filter>
+                            <filter id="gamma">
+                                <feComponentTransfer in="SourceGraphic">
+                                    <feFuncR type="gamma" amplitude="1" exponent="1" offset="0"></feFuncR>
+                                    <feFuncG type="gamma" amplitude="1" exponent="1.2" offset="0"></feFuncG>
+                                    <feFuncB type="gamma" amplitude="1" exponent="1" offset="0"></feFuncB>
+                                </feComponentTransfer>
+                            </filter>
+                            <filter id="table">
+                                <feComponentTransfer in="SourceGraphic">
+                                    <feFuncR type="table" tableValues="0.0,0.95,1.0"></feFuncR>
+                                    <feFuncG type="table" tableValues="0.0,0.95,1.0"></feFuncG>
+                                    <feFuncB type="table" tableValues="0.0,0.95,1.0"></feFuncB>
+                                </feComponentTransfer>
+                            </filter>
+                            <rect
+                                id="linearGradientRect"
+                                x="60"
+                                y="0"
+                                width="1600"
+                                height="100"
+                                fill="url(#black2golden)"
+                            />
+                        </defs>
+
+                        <use xlink:href="#linearGradientRect" y="250" />
+                        <use xlink:href="#linearGradientRect" y="400" filter="url(#identity)" />
+                        <use xlink:href="#linearGradientRect" y="550" filter="url(#linear)" />
+                        <use xlink:href="#linearGradientRect" y="700" filter="url(#gamma)" />
+                        <use xlink:href="#linearGradientRect" y="850" filter="url(#table)" />
+
+                        <g transform="translate(1720, 0)" fill="#fff" font-size="30px" dominant-baseline="middle">
+                            <text x="0" y="300">none</text>
+                            <text x="0" y="450">identity</text>
+                            <text x="0" y="600">linear</text>
+                            <text x="0" y="750">gamma</text>
+                            <text x="0" y="900">table</text>
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feComponentTransfer
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feMorphology -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <circle id="redCircle" cx="0" cy="0" r="200" stroke="#f00" stroke-width="10" />
+                            <filter id="erode">
+                                <feMorphology in="SourceGraphic" operator="erode" radius="3">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="radius"
+                                        values="0;6;0"
+                                        dur="1.5s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feMorphology>
+                            </filter>
+                            <filter id="dilate">
+                                <feMorphology in="SourceGraphic" operator="dilate" radius="10">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="radius"
+                                        values="0;12;0"
+                                        dur="1.5s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feMorphology>
+                            </filter>
+                        </defs>
+
+                        <use xlink:href="#redCircle" x="230" y="540" filter="url(#erode)" />
+                        <use xlink:href="#redCircle" x="780" y="540" filter="url(#dilate)" />
+                        <image
+                            xlink:href="./img/chrome.png"
+                            x="1090"
+                            y="365"
+                            height="350"
+                            width="350"
+                            filter="url(#erode)"
+                        />
+                        <image
+                            xlink:href="./img/chrome.png"
+                            x="1520"
+                            y="365"
+                            height="350"
+                            width="350"
+                            filter="url(#dilate)"
+                        />
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feMorphology
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feConvolveMatrix -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter id="feConvolveMatrix_1">
+                                <feConvolveMatrix
+                                    kernelMatrix="
+                                    1 1 1
+                                    1 0 -1
+                                    -1 -1 -1"
+                                    bias="0.5"
+                                    preserveAlpha="true"
+                                ></feConvolveMatrix>
+                            </filter>
+                            <filter id="feConvolveMatrix_2">
+                                <feConvolveMatrix
+                                    order="8"
+                                    kernelMatrix="
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1
+                                    1 1 1 1 1 1 1 1"
+                                ></feConvolveMatrix>
+                            </filter>
+                            <filter id="feConvolveMatrix_3">
+                                <feConvolveMatrix
+                                    kernelMatrix="
+                                    0 -1 0
+                                    -1 5 -1
+                                    0 -1 0"
+                                ></feConvolveMatrix>
+                            </filter>
+                            <filter id="feConvolveMatrix_4">
+                                <feConvolveMatrix
+                                    kernelMatrix="
+                                    0 1 0
+                                    1 -4 1
+                                    0 1 0"
+                                    result="strokeX"
+                                ></feConvolveMatrix>
+                            </filter>
+                            <image
+                                id="feConvolveMatrixChrome"
+                                xlink:href="./img/chrome.png"
+                                x="0"
+                                y="0"
+                                height="350"
+                                width="350"
+                            />
+                        </defs>
+
+                        <use xlink:href="#feConvolveMatrixChrome" x="104" y="365" filter="url(#feConvolveMatrix_1)" />
+                        <use xlink:href="#feConvolveMatrixChrome" x="558" y="365" filter="url(#feConvolveMatrix_2)" />
+                        <use xlink:href="#feConvolveMatrixChrome" x="1012" y="365" filter="url(#feConvolveMatrix_3)" />
+                        <use xlink:href="#feConvolveMatrixChrome" x="1466" y="365" filter="url(#feConvolveMatrix_4)" />
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feConvolveMatrix
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feDiffuseLighting feSpecularLighting -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <radialGradient id="wave" fx="50%" fy="50%" r="10%" spreadMethod="reflect">
+                                <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                                <stop offset=".25" stop-color="#fff" stop-opacity=".25" />
+                                <stop offset=".5" stop-color="#fff" stop-opacity=".5" />
+                                <stop offset=".75" stop-color="#fff" stop-opacity=".75" />
+                                <stop offset="1" stop-color="#fff" stop-opacity="1" />
+                            </radialGradient>
+                            <circle id="waveCircle" cx="150" cy="150" r="150" stroke="none" fill="url(#wave)" />
+
+                            <filter
+                                id="filterDiffusePoint"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feDiffuseLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    diffuseConstant="1"
+                                >
+                                    <fePointLight x=".25" y=".25" z=".05">
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="x"
+                                            values="-1;2;-1"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="y"
+                                            values="0;1;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </fePointLight>
+                                </feDiffuseLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <filter
+                                id="filterDiffuseDistant"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feDiffuseLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    diffuseConstant="1"
+                                >
+                                    <feDistantLight azimuth="60" elevation="10">
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="azimuth"
+                                            values="0;360"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="elevation"
+                                            values="0;20;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </feDistantLight>
+                                </feDiffuseLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <filter
+                                id="filterDiffuseSpot"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feDiffuseLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    diffuseConstant="1"
+                                >
+                                    <feSpotLight
+                                        x="0"
+                                        y="0"
+                                        z=".1"
+                                        limitingConeAngle="30"
+                                        pointsAtX="1"
+                                        pointsAtY="1"
+                                        pointsAtZ="0"
+                                    >
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="pointsAtX"
+                                            values="0;.3;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="pointsAtY"
+                                            values="0;.3;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </feSpotLight>
+                                </feDiffuseLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <filter
+                                id="filterSpecularPoint"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feSpecularLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    specularConstant="5"
+                                    specularExponent="10"
+                                >
+                                    <fePointLight x=".25" y=".25" z=".05">
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="x"
+                                            values="-1;2;-1"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="y"
+                                            values="0;1;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </fePointLight>
+                                </feSpecularLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <filter
+                                id="filterSpecularDistant"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feSpecularLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    specularConstant="5"
+                                    specularExponent="10"
+                                >
+                                    <feDistantLight azimuth="60" elevation="10">
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="azimuth"
+                                            values="0;360"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="elevation"
+                                            values="0;20;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </feDistantLight>
+                                </feSpecularLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <filter
+                                id="filterSpecularSpot"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                                primitiveUnits="objectBoundingBox"
+                            >
+                                <feImage
+                                    xlink:href="#waveCircle"
+                                    x="0"
+                                    y="0"
+                                    width="1"
+                                    height="1"
+                                    preserveAspectRatio="xMidYMid meet"
+                                    result="height"
+                                />
+                                <feSpecularLighting
+                                    in="height"
+                                    result="light"
+                                    lighting-color="#fff"
+                                    surfaceScale="1"
+                                    specularConstant="5"
+                                    specularExponent="10"
+                                >
+                                    <feSpotLight
+                                        x="0"
+                                        y="0"
+                                        z=".1"
+                                        limitingConeAngle="30"
+                                        pointsAtX="1"
+                                        pointsAtY="1"
+                                        pointsAtZ="0"
+                                    >
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="pointsAtX"
+                                            values="0;.3;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                        <animate
+                                            attributeType="XML"
+                                            attributeName="pointsAtY"
+                                            values="0;.3;0"
+                                            dur="5s"
+                                            repeatCount="indefinite"
+                                        />
+                                    </feSpotLight>
+                                </feSpecularLighting>
+                                <feComposite
+                                    in="SourceGraphic"
+                                    in2="light"
+                                    operator="arithmetic"
+                                    k1="1"
+                                    k2="0"
+                                    k3="0"
+                                    k4="0"
+                                />
+                            </filter>
+
+                            <circle id="mould" cx="0" cy="0" r="150" fill="gold" />
+                        </defs>
+
+                        <g transform="translate(0, 360)">
+                            <use xlink:href="#mould" x="180" />
+                            <use xlink:href="#mould" x="700" filter="url(#filterDiffusePoint)" />
+                            <use xlink:href="#mould" x="1220" filter="url(#filterDiffuseDistant)" />
+                            <use xlink:href="#mould" x="1740" filter="url(#filterDiffuseSpot)" />
+                        </g>
+
+                        <g transform="translate(0, 740)">
+                            <use xlink:href="#waveCircle" x="30" y="-150" />
+                            <use xlink:href="#mould" x="700" filter="url(#filterSpecularPoint)" />
+                            <use xlink:href="#mould" x="1220" filter="url(#filterSpecularDistant)" />
+                            <use xlink:href="#mould" x="1740" filter="url(#filterSpecularSpot)" />
+                        </g>
+
+                        <g transform="translate(0, 980)" fill="#fff" font-size="30px" text-anchor="middle">
+                            <text x="700">fePointLight</text>
+                            <text x="1220">feDistantLight</text>
+                            <text x="1740">feSpotLight</text>
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feDiffuseLighting feSpecularLighting
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feTurbulence -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter
+                                id="turbulence_1_1"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".1" numOctaves="1" type="turbulence">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="baseFrequency"
+                                        values="0;1;0"
+                                        dur="20s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <filter
+                                id="turbulence_1_2"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".01" numOctaves="1" type="turbulence">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="numOctaves"
+                                        values="1;5;1"
+                                        dur="5s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <filter
+                                id="turbulence_1_3"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".1" numOctaves="1" type="turbulence">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="seed"
+                                        values="0;100;0"
+                                        dur="2s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <filter
+                                id="turbulence_2_1"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".1" numOctaves="1" type="fractalNoise">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="baseFrequency"
+                                        values="0;1;0"
+                                        dur="20s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <filter
+                                id="turbulence_2_2"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".01" numOctaves="1" type="fractalNoise">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="numOctaves"
+                                        values="1;5;1"
+                                        dur="5s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <filter
+                                id="turbulence_2_3"
+                                primitiveUnits="objectBoundingBox"
+                                x="0"
+                                y="0"
+                                width="1"
+                                height="1"
+                            >
+                                <feTurbulence baseFrequency=".1" numOctaves="1" type="fractalNoise">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="seed"
+                                        values="1;100;1"
+                                        dur="2s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                            </filter>
+
+                            <rect id="noise" x="0" y="0" width="520" height="300" />
+                        </defs>
+
+                        <g transform="translate(0, 210)">
+                            <use x="30" xlink:href="#noise" filter="url(#turbulence_1_1)" />
+                            <use x="580" xlink:href="#noise" filter="url(#turbulence_1_2)" />
+                            <use x="1130" xlink:href="#noise" filter="url(#turbulence_1_3)" />
+                            <text x="1680" y="150" fill="#fff" font-size="30px" dominant-baseline="middle">
+                                turbulence
+                            </text>
+                        </g>
+
+                        <g transform="translate(0, 540)">
+                            <use x="30" xlink:href="#noise" filter="url(#turbulence_2_1)" />
+                            <use x="580" xlink:href="#noise" filter="url(#turbulence_2_2)" />
+                            <use x="1130" xlink:href="#noise" filter="url(#turbulence_2_3)" />
+                            <text x="1680" y="150" fill="#fff" font-size="30px" dominant-baseline="middle">
+                                fractalNoise
+                            </text>
+                        </g>
+
+                        <g transform="translate(0, 920)" fill="#fff" font-size="30px" text-anchor="middle">
+                            <text x="290">baseFrequency</text>
+                            <text x="840">numOctaves</text>
+                            <text x="1390">seed</text>
+                        </g>
+
+                        <text
+                            x="30"
+                            y="100"
+                            dominant-baseline="middle"
+                            style="fill: #fff; font-size: 50px"
+                            filter="url(#dropShadow)"
+                        >
+                            feTurbulence
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- feDisplacementMap -->
+                <div class="swiper-slide">
+                    <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 1920 1080"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                        style="background-color: #000"
+                    >
+                        <defs>
+                            <filter id="displacementMap" x="0" y="0" width="10000000000%" height="10000000000%">
+                                <feTurbulence
+                                    baseFrequency=".1"
+                                    numOctaves="1"
+                                    type="turbulence"
+                                    result="turbulence"
+                                ></feTurbulence>
+                                <feOffset in="turbulence" dx="0" dy="0" result="offsetTurbulence">
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="dx"
+                                        values="0;-100000000"
+                                        dur="1000000s"
+                                        repeatCount="indefinite"
+                                    />
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="dy"
+                                        values="0;-50000000"
+                                        dur="1000000s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feOffset>
+                                <feDisplacementMap
+                                    in="SourceGraphic"
+                                    in2="offsetTurbulence"
+                                    scale="50"
+                                    xChannelSelector="R"
+                                    yChannelSelector="G"
+                                ></feDisplacementMap>
+                            </filter>
+                        </defs>
+
+                        <text
+                            x="960"
+                            y="540"
+                            style="font-size: 200px; fill: #fe6f61"
+                            dominant-baseline="middle"
+                            text-anchor="middle"
+                            filter="url(#displacementMap)"
+                        >
+                            feDisplacementMap
+                        </text>
+                    </svg>
+                </div>
+
+                <!-- Tik Tok -->
+                <div class="swiper-slide" style="display: flex; background-color: #000">
+                    <svg
+                        width="70%"
+                        height="70%"
+                        viewBox="0 0 1024 1024"
+                        preserveAspectRatio="xMidYMid meet"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style="margin: auto"
+                    >
+                        <defs>
+                            <path
+                                id="douyinIcon"
+                                d="M937.386667 423.850667a387.84 387.84 0 0 1-232.874667-77.824v352.341333C704.512 878.250667 565.930667 1024 394.922667 1024S85.333333 878.250667 85.333333 698.368c0-179.882667 138.581333-325.632 309.589334-325.632 17.066667 0 33.706667 1.450667 49.92 4.266667v186.624a131.754667 131.754667 0 0 0-48.64-9.216c-76.288 0-138.154667 65.024-138.154667 145.322666 0 80.213333 61.866667 145.322667 138.24 145.322667 76.202667 0 138.069333-65.109333 138.069333-145.322667V0h172.714667c0 134.485333 103.68 243.541333 231.594667 243.541333v180.309334h-1.28"
+                                transform="scale(0.88)"
+                            ></path>
+                            <use id="douyinBlue" xlink:href="#douyinIcon" x="25" y="25" fill="rgb(0, 255, 255)" />
+                            <use id="douyinPink" xlink:href="#douyinIcon" x="50" y="50" fill="rgb(255, 0, 127)" />
+                            <filter id="douyin" x="0" y="0" width="100%" height="100%">
+                                <feImage xlink:href="#douyinPink" result="f1" />
+                                <feImage xlink:href="#douyinBlue" result="f2" />
+                                <feBlend in="f1" in2="f2" mode="screen" result="f3" />
+                                <feImage xlink:href="#douyinMaskRect" result="f4" />
+                                <feTurbulence
+                                    baseFrequency="0 .08"
+                                    numOctaves="5"
+                                    type="turbulence"
+                                    result="turbulence"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="seed"
+                                        values="1;10000000000"
+                                        dur="500000000s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feTurbulence>
+                                <feDisplacementMap
+                                    in="f3"
+                                    in2="turbulence"
+                                    scale="100"
+                                    xChannelSelector="R"
+                                    yChannelSelector="G"
+                                >
+                                    <animate
+                                        attributeType="XML"
+                                        attributeName="scale"
+                                        values="80;100;80"
+                                        dur=".1s"
+                                        repeatCount="indefinite"
+                                    />
+                                </feDisplacementMap>
+                            </filter>
+                        </defs>
+                        <rect x="0" y="0" width="100%" height="100%" filter="url(#douyin)" />
+                    </svg>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swiper@6.0.4/swiper-bundle.min.js"></script>
+        <script src="./script.babel.js"></script>
+    </body>
+</html>

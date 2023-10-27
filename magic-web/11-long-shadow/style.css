@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+:root {
+    font-size: calc(100vw / 7.5);
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    background-color: #111;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.long-shadow {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    width: 5rem;
+    height: 0.8rem;
+}
+
+.letter {
+    display: -webkit-inline-box;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 0.02rem;
+    background: linear-gradient(-25deg, #1e3c72, #2a5298);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.letter::after {
+    content: attr(data-letter);
+    font-size: 0.25rem;
+    color: #a8a8a8;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.letter.enter::after {
+    color: #f8f8f8;
+    text-shadow: none;
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+}
+
+.letter.transition-activity::after {
+    -webkit-transition: text-shadow 0.2s ease-out, color 0.2s ease-out, -webkit-transform 0.2s ease-out;
+    transition: text-shadow 0.2s ease-out, color 0.2s ease-out, -webkit-transform 0.2s ease-out;
+    transition: text-shadow 0.2s ease-out, color 0.2s ease-out, transform 0.2s ease-out;
+    transition: text-shadow 0.2s ease-out, color 0.2s ease-out, transform 0.2s ease-out, -webkit-transform 0.2s ease-out;
+}
+
+.light-source {
+    position: absolute;
+    display: -webkit-box;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    -webkit-perspective: 0.5rem;
+    perspective: 0.5rem;
+    -webkit-transform: translate3d(0, -50%, 0) rotateZ(90deg);
+    transform: translate3d(0, -50%, 0) rotateZ(90deg);
+    -webkit-transform-origin: center;
+    transform-origin: center;
+}
+
+.light {
+    margin: auto;
+    width: 1rem;
+    height: 0.2rem;
+    -webkit-transform: rotateY(-85deg);
+    transform: rotateY(-85deg);
+    -webkit-transform-origin: center;
+    transform-origin: center;
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(50%, #fff), to(transparent));
+    background-image: linear-gradient(to right, #fff 50%, transparent);
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>长阴影</title>
+        <link rel="stylesheet" href="style.css" />
+        <script>
+            const SHADOW_LENGTH = 200; // 阴影总长，单位px
+            const SHADOW_TOTAL = 200; // 阴影总数
+            const SINGLE_SHADOW_LENGTH = SHADOW_LENGTH / SHADOW_TOTAL; // 单个阴影的长度，单位px
+
+            let $shadowStyle = document.createElement('style'),
+                shadowOffsetX,
+                shadowOffsetY,
+                shadowArr = [];
+
+            for (let i = 1; i <= SHADOW_TOTAL; i++) {
+                shadowOffsetY = SINGLE_SHADOW_LENGTH * i;
+                shadowOffsetX = 0;
+                shadowArr[i - 1] = `${shadowOffsetX}px ${shadowOffsetY}px 0 hsl(218, 57%, 10%)`;
+            }
+
+            $shadowStyle.innerText = `.letter::after{text-shadow: ${shadowArr.join(',')};}`;
+            $shadowStyle.classList.add('shadow-style');
+            document.head.appendChild($shadowStyle);
+        </script>
+    </head>
+    <body>
+        <div class="long-shadow">LONG-SHADOW</div>
+
+        <script>
+            let $longShadow = document.querySelector('.long-shadow'),
+                longShadowTextArr = $longShadow.innerText.split('');
+            longShadowTextArr.map((item, index, arr) => {
+                arr[index] = `<span class="letter" data-letter="${item}"></span>`;
+            });
+            $longShadow.innerHTML = longShadowTextArr.join('');
+        </script>
+
+        <div class="light-source">
+            <div class="light"></div>
+        </div>
+
+        <script>
+            let viewport = {
+                    width: document.body.clientWidth,
+                    height: document.body.clientHeight,
+                },
+                origin = {
+                    x: viewport.width / 2,
+                    y: viewport.height / 2,
+                },
+                mouse = {
+                    x: 0,
+                    y: 0,
+                },
+                matrixArr = [],
+                deltaY = 0,
+                deltaX = 0,
+                r = 0,
+                sin = 0,
+                cos = 0,
+                tan = 0,
+                lastTime = 0;
+
+            window.addEventListener('resize', function () {
+                if (Date.now() - lastTime > 16) {
+                    lastTime = Date.now();
+                    viewport.width = document.body.clientWidth;
+                    viewport.height = document.body.clientHeight;
+                    origin.x = viewport.width / 2;
+                    origin.y = viewport.height / 2;
+                }
+            });
+
+            document.body.addEventListener('mousemove', function (e) {
+                if (Date.now() - lastTime > 16) {
+                    lastTime = Date.now();
+                    mouse.x = e.pageX;
+                    mouse.y = e.pageY;
+                    lightMove();
+                }
+            });
+
+            function lightMove() {
+                deltaY = mouse.y - origin.y;
+                deltaX = mouse.x - origin.x;
+                r = (deltaY ** 2 + deltaX ** 2) ** 0.5;
+                sin = deltaY / r;
+                cos = deltaX / r;
+                tan = deltaY / deltaX;
+                matrixArr.length = 0;
+                matrixArr.push(-cos, -sin, sin, -cos);
+
+                if (Math.abs(tan * origin.x) <= origin.y) {
+                    if (deltaX > 0) {
+                        matrixArr.push(origin.x, tan * origin.x);
+                    } else {
+                        matrixArr.push(-origin.x, tan * -origin.x);
+                    }
+                } else {
+                    if (deltaY > 0) {
+                        matrixArr.push(origin.y / tan, origin.y);
+                    } else {
+                        matrixArr.push(-origin.y / tan, -origin.y);
+                    }
+                }
+
+                shadowArr.length = 0;
+                for (let i = 1; i <= SHADOW_TOTAL; i++) {
+                    shadowOffsetY = SINGLE_SHADOW_LENGTH * -i * sin;
+                    shadowOffsetX = SINGLE_SHADOW_LENGTH * -i * cos;
+                    shadowArr[i - 1] = `${shadowOffsetX}px ${shadowOffsetY}px 0 hsl(218, 57%, 10%)`;
+                }
+
+                $shadowStyle.innerText = `.letter::after{text-shadow:${shadowArr.join(',')};}.light-source{transform: matrix(${matrixArr.join(',')});}`;
+            }
+
+            document.querySelectorAll('.letter').forEach(item => {
+                item.addEventListener('mouseenter', function () {
+                    this.classList.add('transition-activity', 'enter');
+                });
+                item.addEventListener('mouseout', function () {
+                    this.classList.add('transition-activity');
+                    this.classList.remove('enter');
+                });
+                item.addEventListener('transitionend', function () {
+                    this.classList.remove('transition-activity');
+                });
+            });
+        </script>
+    </body>
+</html>
