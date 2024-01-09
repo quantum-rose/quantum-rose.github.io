@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>x5-video</title>
+        <link rel="stylesheet" href="https://cdn.staticfile.org/Swiper/4.5.1/css/swiper.min.css" />
+        <style>
+            * {
+                line-height: 1.5;
+            }
+
+            html,
+            body {
+                height: 100%;
+                background-color: #eee;
+            }
+
+            body {
+                margin: 0;
+            }
+
+            h3 {
+                font-size: 16px;
+                margin: 0.5em 0;
+            }
+
+            video {
+                vertical-align: middle;
+            }
+
+            .swiper-container {
+                width: 100%;
+                height: 100%;
+            }
+
+            .swiper-slide {
+                overflow-x: hidden;
+                overflow-y: scroll;
+            }
+
+            .swiper-slide::after {
+                content: '';
+                display: block;
+                width: 100%;
+                height: 40px;
+            }
+
+            .card {
+                margin: 12px 10px;
+                padding: 10px;
+                border-radius: 8px;
+                background-color: #fff;
+                box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            }
+
+            .card > * {
+                margin-bottom: 10px;
+            }
+
+            .code {
+                background-color: #282c34;
+                padding: 1em 1em 1em 2em;
+                color: #fff;
+                font-size: 11px;
+                border-radius: 4px;
+            }
+
+            .danger {
+                color: #f56c6c;
+            }
+
+            .primary {
+                color: #409eff;
+            }
+
+            .video-container {
+                position: relative;
+                top: 0;
+                left: 0;
+            }
+
+            .video-container .skip {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                padding: 0.25em 0.5em;
+                border-radius: 0.2em;
+            }
+
+            .video-container .play {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+                background-color: rgba(0, 0, 0, 0.5);
+                padding: 30px;
+                border-radius: 50%;
+            }
+
+            .video-container .play::after {
+                content: '';
+                display: block;
+                border: 20px solid transparent;
+                border-right-width: 0;
+                border-left-width: 36px;
+                border-left-color: #fff;
+                transform: translateX(15%);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card">
+                        <h3 class="danger">video标签至少显式指定width、height其中一个</h3>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">无poster，未指定width和height 👇</h3>
+                        <ol class="code">
+                            <li>&lt;video controls src="./video.mp4"&gt;&lt;/video&gt;</li>
+                        </ol>
+                        <video controls src="./video.mp4"></video>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">无poster，height: 40vw 👇</h3>
+                        <ol class="code">
+                            <li>&lt;video style="height: 40vw;" controls src="./video.mp4"&gt;&lt;/video&gt;</li>
+                        </ol>
+                        <video style="height: 40vw;" controls src="./video.mp4"></video>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">无poster，width: 100% 👇</h3>
+                        <ol class="code">
+                            <li>&lt;video style="width: 100%;" controls src="./video.mp4"&gt;&lt;/video&gt;</li>
+                        </ol>
+                        <video style="width: 100%;" controls src="./video.mp4"></video>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">有poster，未指定width和height 👇</h3>
+                        <ol class="code">
+                            <li>&lt;video controls src="./video.mp4" poster="./poster.png"&gt;&lt;/video&gt;</li>
+                        </ol>
+                        <video controls src="./video.mp4" poster="./poster.png"></video>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">有poster，height: 40vw 👇</h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video style="height: 40vw;" controls src="./video.mp4"
+                                poster="./poster.png"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <video style="height: 40vw;" controls src="./video.mp4" poster="./poster.png"></video>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="primary">有poster，width: 100% 👇</h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video style="width: 100%;" controls src="./video.mp4"
+                                poster="./poster.png"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <video style="width: 100%;" controls src="./video.mp4" poster="./poster.png"></video>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <h3 class="danger">
+                            playsinline<br />webkit-playsinline<br />x5-video-player-video-type="h5-page"<br />添加这三个属性得到的效果是目前最符合预期的
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls playsinline webkit-playsinline x5-video-player-type="h5-page"
+                                src="./video.mp4" poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5-page"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                        <a href="https://x5.tencent.com/tbs/guide/video.html">腾讯浏览服务-H5同层播放器接入规范</a>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">playsinline</span>
+                            <br />
+                            <span class="primary">webkit-playsinline</span>
+                            <br />
+                            可以使ios微信浏览器的video在原地播放
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls playsinline webkit-playsinline src="./video.mp4"
+                                poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">x5-video-player-video-type="h5-page"</span>
+                            <br />
+                            启用同层播放，可以解决Android微信浏览器中video层级最高，导致不能在video上覆盖其他元素的问题；
+                            <mark>同时也可以使Android微信浏览器的video在原地播放</mark>
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls x5-video-player-type="h5-page" src="./video.mp4"
+                                poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                controls
+                                x5-video-player-type="h5-page"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <h3>
+                            <span class="primary">x5-playsinline</span>
+                            <br />
+                            可以使Android微信浏览器的video在原地播放，但是没有解决Android微信浏览器video层级最高的问题；
+                            <mark>需要注意的是这个属性不能使ios微信浏览器的video在原地播放</mark>
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls x5-playsinline src="./video.mp4" poster="./poster.png" style="width:
+                                100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                controls
+                                x5-playsinline
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">x5-playsinline</span>
+                            <br />
+                            <span class="primary">x5-video-player-type="h5-page"</span>
+                            <br />
+                            这两个属性组合的效果与单独使用 x5-playsinline 相同，即 x5-video-player-type="h5-page"
+                            没有生效
+                            <br />
+                            <span class="danger">x5-playsinline 和 x5-video-player-type="h5-page" 不要同时使用</span>
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls x5-playsinline x5-video-player-type="h5" src="./video.mp4"
+                                poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                controls
+                                x5-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <h3 class="danger">
+                            移动端不要用autoplay也不要在用户未进行任何网页交互行为的情况下调用video对象的play()方法
+                        </h3>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">autoplay</span>
+                            <br />
+                            无论是ios还是Android都不会自动播放，并且ios微信浏览器下video中间的大播放按钮会消失
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video autoplay controls playsinline webkit-playsinline x5-video-player-type="h5"
+                                src="./video.mp4" poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                autoplay
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">muted</span>
+                            <br />
+                            <span class="primary">autoplay</span>
+                            <br />
+                            加了muted后，Android微信浏览器video中间的大播放按钮也消失了
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video muted autoplay controls playsinline webkit-playsinline
+                                x5-video-player-type="h5" src="./video.mp4" poster="./poster.png" style="width:
+                                100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                muted
+                                autoplay
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>直接调用video对象的play()方法也不能实现自动播放</h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video controls playsinline webkit-playsinline x5-video-player-type="h5"
+                                src="./video.mp4" poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                id="video-1"
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>
+                            <span class="primary">muted</span>
+                            <br />
+                            加了muted的情况下调用play()方法，Android微信浏览器video中间的大播放按钮也会消失
+                        </h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video muted controls playsinline webkit-playsinline x5-video-player-type="h5"
+                                src="./video.mp4" poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container">
+                            <video
+                                id="video-2"
+                                muted
+                                controls
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card">
+                        <h3>使用js控制播放与暂停</h3>
+                        <ol class="code">
+                            <li>
+                                &lt;video playsinline webkit-playsinline x5-video-player-type="h5" src="./video.mp4"
+                                poster="./poster.png" style="width: 100%;"&gt;&lt;/video&gt;
+                            </li>
+                        </ol>
+                        <div class="video-container video-3-container">
+                            <video
+                                id="video-3"
+                                playsinline
+                                webkit-playsinline
+                                x5-video-player-type="h5"
+                                src="./video.mp4"
+                                poster="./poster.png"
+                                style="width: 100%;"
+                            ></video>
+                            <div class="skip" onclick="alert('timestamp: ' + Date.now())">跳过</div>
+                            <div class="play play-video-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <script src="https://cdn.staticfile.org/Swiper/4.5.1/js/swiper.min.js"></script>
+        <script>
+            const mySwiper = new Swiper('.swiper-container', {
+                // initialSlide: 4,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
+
+            document.querySelector('#video-1').play();
+            document.querySelector('#video-2').play();
+
+            const $video3container = document.querySelector('.video-3-container');
+            const $video3 = document.querySelector('#video-3');
+            const $video3Btn = document.querySelector('.play-video-3');
+            $video3Btn.addEventListener('click', function () {
+                // $video3container.style.position = 'fixed';
+                // $video3container.style.top = '0';
+                // $video3container.style.left = '0';
+                // $video3container.style.width = '100%';
+                // $video3container.style.height = '100%';
+                // $video3.style.width = '100%';
+                // $video3.style.height = '100%';
+                this.style.display = 'none';
+                $video3.play();
+            });
+            $video3.addEventListener('click', function () {
+                this.pause();
+                $video3Btn.style.display = 'block';
+            });
+        </script>
+    </body>
+</html>
